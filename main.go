@@ -390,7 +390,7 @@ func main() {
 				log.Fatal(err)
 			}
 		case "python":
-			if err = generate(lang, "python", "paths=source_relative", *srcDir, *dstDir); err != nil {
+			if err = generate(lang, "python", "", *srcDir, *dstDir); err != nil {
 				log.Fatal(err)
 			}
 		case "js":
