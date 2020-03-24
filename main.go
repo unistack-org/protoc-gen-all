@@ -209,6 +209,7 @@ func generate(lang string, tool string, arg string, src string, dst string, args
 					fmt.Sprintf("%s", strings.Join(args, " ")),
 				)
 			}
+			fmt.Printf("%s\n", strings.Join(cmdargs, " "))
 			if out, err := exec.Command(cmdargs[0], cmdargs[1:]...).CombinedOutput(); err != nil {
 				log.Fatalf("%s\n", out)
 			}
