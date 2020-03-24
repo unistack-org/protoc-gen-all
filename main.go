@@ -394,7 +394,7 @@ func main() {
 				log.Fatal(err)
 			}
 		case "js":
-			if err = generate(lang, "js", "import_style=commonjs,binary", *srcDir, *dstDir, fmt.Sprintf("--plugin=protoc-gen-grpc=%s", filepath.Join("js-tool", "grpc_tools_node_protoc_plugin"))); err != nil {
+			if err = generate(lang, "js", "import_style=commonjs,binary", *srcDir, *dstDir, "--plugin=protoc-gen-grpc=grpc_tools_node_protoc_plugin"); err != nil {
 				log.Fatal(err)
 			}
 		}
