@@ -29,6 +29,7 @@ var (
 	protocGenGoBin       = "protoc-gen-go"
 	protocGenJsBin       = "grpc_tools_node_protoc_plugin"
 	protocGenJsVersion   = "1.8.1"
+	protocGenRubyBin     = "grpc_tools_ruby_protoc"
 	//protocGenJsVersion = "1.24.2"
 )
 
@@ -169,6 +170,15 @@ func generate(lang string, tool string, arg string, src string, dst string, args
 
 			var cmdargs []string
 			switch lang {
+			case "ruby":
+				cmdargs = append(cmdargs,
+					"protoc",
+					fmt.Sprintf("-I%s", src),
+					fmt.Sprintf("--%s_out=%s:%s", tool, arg, dstpath),
+					fmt.Sprintf("--grpc_out=%s", dstpath),
+					fmt.Sprintf("%s", proto),
+					fmt.Sprintf("%s", strings.Join(args, " ")),
+				)
 			case "java":
 				cmdargs = append(cmdargs,
 					"protoc",
@@ -378,6 +388,10 @@ func main() {
 		}
 
 		switch lang {
+		case "ruby":
+			if err = generate(lang, "python", "", *srcDir, *dstDir, "--plugin=protoc-gen-grpc=grpc_tools_ruby_protoc"); err != nil {
+				log.Fatal(err)
+			}
 		case "go":
 			if err = generate(lang, "go", "plugins=grpc,paths=source_relative", *srcDir, *dstDir); err != nil {
 				log.Fatal(err)
