@@ -389,7 +389,7 @@ func main() {
 
 		switch lang {
 		case "ruby":
-			if err = generate(lang, "python", "", *srcDir, *dstDir, "--plugin=protoc-gen-grpc=grpc_tools_ruby_protoc"); err != nil {
+			if err = generate(lang, "python", "", *srcDir, *dstDir, "--plugin=protoc-gen-grpc=grpc_tools_ruby_protoc_plugin"); err != nil {
 				log.Fatal(err)
 			}
 		case "go":
