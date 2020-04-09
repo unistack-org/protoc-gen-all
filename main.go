@@ -170,6 +170,17 @@ func generate(lang string, tool string, arg string, src string, dst string, args
 
 			var cmdargs []string
 			switch lang {
+			case "rust":
+				cmdargs = append(cmdargs,
+					"protoc",
+					fmt.Sprintf("-I%s", src),
+					fmt.Sprintf("-I%s", filepath.Dir(proto)),
+					fmt.Sprintf("-I%s", filepath.Join(src, "vendor")),
+					fmt.Sprintf("--%s_out=%s:%s", tool, arg, dstpath),
+					fmt.Sprintf("--rust-grpc_out=%s", dstpath),
+					fmt.Sprintf("%s", proto),
+					fmt.Sprintf("%s", strings.Join(args, " ")),
+				)
 			case "ruby":
 				cmdargs = append(cmdargs,
 					"protoc",
@@ -394,6 +405,14 @@ func main() {
 		}
 
 		switch lang {
+		case "rust":
+			ppath, err := exec.LookPath("protoc-gen-rust-grpc")
+			if err != nil {
+				log.Fatal(err)
+			}
+			if err = generate(lang, "rust", "", *srcDir, *dstDir, fmt.Sprintf("--plugin=protoc-gen-rust-grpc=%s", ppath)); err != nil {
+				log.Fatal(err)
+			}
 		case "ruby":
 			ppath, err := exec.LookPath("grpc_tools_ruby_protoc_plugin")
 			if err != nil {
